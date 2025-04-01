@@ -7,44 +7,54 @@
 </ion-header>
 
 <ion-content class="restaurants-page" [fullscreen]="true">
-
-  <div *ngFor="let cuisine of objectKeys(cuisines)">
-    <h2 id="cusisine-header">{{cuisine}}</h2>
-    <!-- container for horizontal scrolling -->
-    <div id="restaurant-cards">
-      <!-- looping though every restaurant of that quisine -->
-      <ion-card *ngFor="let restaurant of cuisines[cuisine]">
-        <ion-card-header>
-          <ion-card-title>{{ restaurant.name }}</ion-card-title>
-          <ion-card-subtitle>{{ restaurant.cuisine }}</ion-card-subtitle>
-        </ion-card-header>
-      
-        <ion-card-content id="content">
-          <!-- calling the function to get  to correct image for the rating -->
-          <img [src]="stars(restaurant.average_rating)" alt="Review" id="stars-img">      
-          <ion-buttons>
-            <ion-button (click)="goHome()">
-              <ion-icon name="ellipsis-horizontal" id="option-button"></ion-icon>  
-            </ion-button>
-          </ion-buttons>
-        </ion-card-content>
-      </ion-card>
+  <!-- rendering the restauraunts only if the cusisines exist and there is more than one restaurant -->
+  <div *ngIf="cuisines && objectKeys(cuisines).length > 0">
+    <div *ngFor="let cuisine of objectKeys(cuisines)">
+      <h2 id="cusisine-header">{{cuisine}}</h2>
+      <!-- container for horizontal scrolling -->
+      <div id="restaurant-cards">
+        <!-- looping though every restaurant of that quisine -->
+        <ion-card *ngFor="let restaurant of cuisines[cuisine]">
+          <ion-card-header>
+            <ion-card-title>{{ restaurant.name }}</ion-card-title>
+            <ion-card-subtitle>{{ restaurant.cuisine }}</ion-card-subtitle>
+          </ion-card-header>
+        
+          <ion-card-content id="content">
+            <!-- calling the function to get  to correct image for the rating -->
+            <img [src]="stars(restaurant.average_rating)" alt="Review" id="stars-img">      
+            <ion-buttons>
+              <ion-button id="unique-button-{{restaurant.name}}">
+                <ion-icon name="ellipsis-horizontal" id="option-button"></ion-icon>  
+              </ion-button>
+              <ion-popover trigger="unique-button-{{restaurant.name}}" [dismissOnSelect]="true">
+                <ng-template>
+                  <ion-content id="popover-content">
+                    <ion-list>
+                      <ion-item [button]="true" [detail]="false">Add to favourites</ion-item>
+                      <ion-item [button]="true" [detail]="false">Option 2</ion-item>
+                    </ion-list>
+                  </ion-content>
+                </ng-template>
+              </ion-popover>
+            </ion-buttons>
+          </ion-card-content>
+        </ion-card>
+      </div>
     </div>
   </div>
-  <p *ngIf="position">Latitude: {{ position?.latitude }}, Longitude: {{ position?.longitude }}</p>
-
 
 </ion-content>
 
 <ion-footer>
   <ion-toolbar>
     <ion-buttons class="navigation-buttons">
-      <ion-button (click)="goHome()">
+      <ion-button (click)="goToHome()">
         <ion-icon name="home-outline" class="icons"></ion-icon> 
       </ion-button>
-      <ion-button (click)="goHome()">
+      <ion-button (click)="goToFavourites()">
         <ion-icon name="heart-outline" class="icons"></ion-icon> 
-      </ion-button><ion-button (click)="goHome()">
+      </ion-button><ion-button (click)="goToHome()">
         <ion-icon name="map-outline" class="icons"></ion-icon> 
       </ion-button>
     </ion-buttons>

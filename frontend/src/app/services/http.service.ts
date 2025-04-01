@@ -7,7 +7,9 @@ import { Injectable } from '@angular/core';
 export class HttpService {
   constructor(private http: HttpClient) { }
 
-  public get(url: string){
-    return this.http.get(url);
+  private restaurantsApi = "https://jsonblob.com/api/jsonBlob/1356640862804828160";
+
+  public getRestaurants(){
+    return this.http.get(this.restaurantsApi);
   }
 }

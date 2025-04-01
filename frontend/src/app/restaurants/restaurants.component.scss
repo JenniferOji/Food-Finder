@@ -23,11 +23,22 @@ ion-toolbar {
 ion-card {
     border-radius: 15px;
     min-width: 300px; 
-    max-width: 300px; 
+    max-width: 350px; 
     flex-shrink: 0; // prevents the cards from shrinking 
     border-radius: 15px;
 }
 
+ion-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+#popover-content {
+    --padding-top: 0;
+    --padding-bottom: 0;
+}
+  
 #stars-img {
     height: 40px;
 }
@@ -62,4 +73,3 @@ ion-card-title {
     white-space: normal;  // allows the text to wrap
     overflow-wrap: break-word; 
 }
-

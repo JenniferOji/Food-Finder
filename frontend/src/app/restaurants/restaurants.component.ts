@@ -3,14 +3,14 @@ import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { HttpService } from '../services/http.service';
 import { LocationService } from '../services/location.service';
-import { IonHeader, IonToolbar, IonTitle, IonContent, IonFooter, IonButtons, IonButton, IonIcon, IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent } from '@ionic/angular/standalone';
+import { IonHeader, IonToolbar, IonTitle, IonContent, IonFooter, IonButtons, IonButton, IonIcon, IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent, IonList, IonItem, IonSelect, IonSelectOption, IonText, IonPopover} from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { homeOutline, heartOutline, mapOutline, ellipsisHorizontal } from 'ionicons/icons';
 
 @Component({
   selector: 'app-restaurants',
   templateUrl: './restaurants.component.html',
-  imports: [CommonModule, IonHeader, IonToolbar, IonTitle, IonContent, IonFooter, IonButtons, IonButton, IonIcon, IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent ],
+  imports: [CommonModule, IonHeader, IonToolbar, IonTitle, IonContent, IonFooter, IonButtons, IonButton, IonIcon, IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent, IonList, IonItem, IonSelect, IonSelectOption , IonText, IonPopover],
   styleUrls: ['./restaurants.component.scss'],
   // the icons being used in this page
   template: `<ion-icon name="home-outline"></ion-icon>
@@ -39,7 +39,7 @@ export class RestaurantsComponent  implements OnInit {
 
   ngOnInit() {
     // need to subscribe to an observable to get the data
-    this.hs.get("https://jsonblob.com/api/jsonBlob/1356640862804828160").subscribe({
+    this.hs.getRestaurants().subscribe({
       next: (data) => {
         this.restaurants = data;
         this.groupRestaurantsByCuisine();
@@ -77,8 +77,12 @@ export class RestaurantsComponent  implements OnInit {
     });
   }
 
-  goHome() {
+  goToHome() {
     this.router.navigate(['/restaurants'])
+  }
+
+  goToFavourites() {
+    this.router.navigate(['/favourites'])
   }
 
   logOut() {
