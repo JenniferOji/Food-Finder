@@ -19,3 +19,21 @@ ion-toolbar {
     width: auto;
     transform: translateY(-12px); // moving the logo up to fit in the toolbar
 }
+
+ion-card {
+    border-radius: 15px;
+}
+
+#stars-img {
+    height: 40px;
+}
+
+#option-button {
+    font-size: 42px;
+}
+
+#content {
+    display: flex;
+    align-items: center;
+    gap: 110px;
+}

@@ -7,15 +7,25 @@
 </ion-header>
 
 <ion-content class="restaurants-page" [fullscreen]="true">
-  <table>
-    <tr>
-      <th>Name</th>
-    </tr>
-    <tr *ngFor="let r of restaurants">
-      <td>{{ r.name }}</td>
-    </tr>
-  </table>
+
+  <ion-card *ngFor="let restaurant of restaurants">
+    <ion-card-header>
+      <ion-card-title>{{ restaurant.name }}</ion-card-title>
+      <ion-card-subtitle>{{ restaurant.cuisine }}</ion-card-subtitle>
+    </ion-card-header>
+  
+    <ion-card-content id="content">
+      <!-- calling the function to get  to correct image for the rating -->
+      <img [src]="stars(restaurant.average_rating)" alt="Review" id="stars-img">      
+      <ion-buttons>
+        <ion-button (click)="goHome()">
+          <ion-icon name="ellipsis-horizontal" id="option-button"></ion-icon>  
+        </ion-button>
+      </ion-buttons>
+    </ion-card-content>
+  </ion-card>
   <p *ngIf="position">Latitude: {{ position?.latitude }}, Longitude: {{ position?.longitude }}</p>
+
 </ion-content>
 
 <ion-footer>
