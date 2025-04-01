@@ -8,23 +8,31 @@
 
 <ion-content class="restaurants-page" [fullscreen]="true">
 
-  <ion-card *ngFor="let restaurant of restaurants">
-    <ion-card-header>
-      <ion-card-title>{{ restaurant.name }}</ion-card-title>
-      <ion-card-subtitle>{{ restaurant.cuisine }}</ion-card-subtitle>
-    </ion-card-header>
-  
-    <ion-card-content id="content">
-      <!-- calling the function to get  to correct image for the rating -->
-      <img [src]="stars(restaurant.average_rating)" alt="Review" id="stars-img">      
-      <ion-buttons>
-        <ion-button (click)="goHome()">
-          <ion-icon name="ellipsis-horizontal" id="option-button"></ion-icon>  
-        </ion-button>
-      </ion-buttons>
-    </ion-card-content>
-  </ion-card>
+  <div *ngFor="let cuisine of objectKeys(cuisines)">
+    <h2 id="cusisine-header">{{cuisine}}</h2>
+    <!-- container for horizontal scrolling -->
+    <div id="restaurant-cards">
+      <!-- looping though every restaurant of that quisine -->
+      <ion-card *ngFor="let restaurant of cuisines[cuisine]">
+        <ion-card-header>
+          <ion-card-title>{{ restaurant.name }}</ion-card-title>
+          <ion-card-subtitle>{{ restaurant.cuisine }}</ion-card-subtitle>
+        </ion-card-header>
+      
+        <ion-card-content id="content">
+          <!-- calling the function to get  to correct image for the rating -->
+          <img [src]="stars(restaurant.average_rating)" alt="Review" id="stars-img">      
+          <ion-buttons>
+            <ion-button (click)="goHome()">
+              <ion-icon name="ellipsis-horizontal" id="option-button"></ion-icon>  
+            </ion-button>
+          </ion-buttons>
+        </ion-card-content>
+      </ion-card>
+    </div>
+  </div>
   <p *ngIf="position">Latitude: {{ position?.latitude }}, Longitude: {{ position?.longitude }}</p>
+
 
 </ion-content>
 

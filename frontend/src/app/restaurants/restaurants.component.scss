@@ -22,6 +22,10 @@ ion-toolbar {
 
 ion-card {
     border-radius: 15px;
+    min-width: 300px; 
+    max-width: 300px; 
+    flex-shrink: 0; // prevents the cards from shrinking 
+    border-radius: 15px;
 }
 
 #stars-img {
@@ -35,5 +39,27 @@ ion-card {
 #content {
     display: flex;
     align-items: center;
-    gap: 110px;
+    gap: 30px;
 }
+
+#restaurant-cards {
+    display: flex;
+    overflow-x: auto;  // horizontal scrolling
+    white-space: nowrap; // preventing the cards from stacking
+    padding: 10px 0; 
+    scrollbar-width: thin; 
+    scrollbar-color: #888 #f1f1f1;
+}
+
+#cusisine-header {
+    margin-left: 20px;
+    font-weight: bold;
+    padding: none;
+    margin-bottom: none;
+}
+
+ion-card-title {
+    white-space: normal;  // allows the text to wrap
+    overflow-wrap: break-word; 
+}
+

@@ -20,22 +20,30 @@ import { homeOutline, heartOutline, mapOutline, ellipsisHorizontal } from 'ionic
 })
 export class RestaurantsComponent  implements OnInit {
   restaurants!: any;
+  cuisines!: any;
   position: any;
 
- constructor(private router: Router, private hs: HttpService, private ls: LocationService){
-  addIcons({
-      homeOutline,
-      heartOutline,
-      mapOutline,
-      ellipsisHorizontal
+  // returning an array of objects - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/keys
+  objectKeys(obj: any): string[] {
+    return Object.keys(obj);
+  }
+
+  constructor(private router: Router, private hs: HttpService, private ls: LocationService){
+    addIcons({
+        homeOutline,
+        heartOutline,
+        mapOutline,
+        ellipsisHorizontal
     });
  }
 
   ngOnInit() {
     // need to subscribe to an observable to get the data
-    this.hs.get("https://jsonblob.com/api/jsonBlob/1356247305552060416").subscribe({
+    this.hs.get("https://jsonblob.com/api/jsonBlob/1356640862804828160").subscribe({
       next: (data) => {
         this.restaurants = data;
+        this.groupRestaurantsByCuisine();
+
       },
       error: (err) => {
         console.log(JSON.stringify(err))
@@ -44,7 +52,6 @@ export class RestaurantsComponent  implements OnInit {
         console.log("complete")
       }
     });
-
     // getting the users location when the component is loaded 
     this.getUserLocation();
   }
@@ -56,6 +63,18 @@ export class RestaurantsComponent  implements OnInit {
     } catch (error) {
       console.error("Error getting location:", error);
     }
+  }
+
+  groupRestaurantsByCuisine() {
+    this.cuisines = {}; // initialising an empty object has keys cuisines and array of restaurants as values
+  
+    this.restaurants.forEach((restaurant: any) => {
+      // checking if the cuisine cataegory already exists in the cusisine object 
+      if (!this.cuisines[restaurant.cuisine]) { 
+        this.cuisines[restaurant.cuisine] = []; // if not it creates an empty array for that cuisine
+      }
+      this.cuisines[restaurant.cuisine].push(restaurant); // adding the restaurant to the corresponding cuisine category 
+    });
   }
 
   goHome() {
