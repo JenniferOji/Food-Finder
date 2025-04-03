@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { RestaurantsComponent } from './restaurants/restaurants.component';
 import { FavouritesComponent } from './favourites/favourites.component';
+import { SignupComponent } from './signup/signup.component';
 
 export const routes: Routes = [
   {
@@ -19,5 +20,13 @@ export const routes: Routes = [
   {
     path: 'favourites',
     component: FavouritesComponent
-  }
+  },
+  {
+    path: 'signup',
+    component: SignupComponent
+  },
+  { path: 'restaurants/:userId', 
+    component: RestaurantsComponent
+  }, 
+
 ];

@@ -1,0 +1,29 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-button fill="clear">
+      <img src="assets/images/mini.png" id="mini-logo" (click)="logOut()">
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-input
+    type="email"
+    fill="solid"
+    label="Email"
+    labelPlacement="floating"
+    errorText="Invalid email"
+    email
+    [(ngModel)]="email">
+  </ion-input>
+  <ion-input
+    type="password"
+    fill="solid"
+    label="password"
+    labelPlacement="floating"
+    password
+    [(ngModel)]="password">
+  </ion-input>
+
+  <ion-button (click)="createAccount()">create account</ion-button>
+</ion-content>

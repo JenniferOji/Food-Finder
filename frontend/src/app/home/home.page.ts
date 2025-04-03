@@ -14,4 +14,8 @@ export class HomePage {
   loadRestaurants() {
     this.router.navigate(['/restaurants']);
   }
+
+  goToSignUp() {
+    this.router.navigate(['/signup']);
+  }
 }

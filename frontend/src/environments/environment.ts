@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  foursquareApiKey: 'fsq3k6BDc+GSRHZLdCu0gcUrQJbVRQnkyg/9Ha97TjsyrKU='
+  foursquareApiKey: 'fsq3k6BDc+GSRHZLdCu0gcUrQJbVRQnkyg/9Ha97TjsyrKU=',
+   backendUrl: 'http://localhost:4000'
 };
 
 /*
