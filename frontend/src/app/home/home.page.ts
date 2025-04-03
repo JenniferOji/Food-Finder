@@ -11,11 +11,15 @@ import { IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/angular/stan
 export class HomePage {
   constructor(private router: Router) {}
 
-  loadRestaurants() {
-    this.router.navigate(['/restaurants']);
-  }
-
   goToSignUp() {
     this.router.navigate(['/signup']);
+  }
+
+  goToLogin() {
+    this.router.navigate(['/login']);
+  }
+
+  goToRestaurants() {
+    this.router.navigate(['/restaurants']);
   }
 }

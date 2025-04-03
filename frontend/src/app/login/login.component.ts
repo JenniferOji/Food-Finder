@@ -6,13 +6,13 @@ import { FormsModule } from '@angular/forms';
 import { AuthenticationService } from '../services/authentication.service';
 
 @Component({
-  selector: 'app-signup',
-  templateUrl: './signup.component.html',
-  styleUrls: ['./signup.component.scss'],
+  selector: 'app-login',
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.scss'],
   imports: [CommonModule, IonHeader, IonToolbar, IonTitle, IonContent, IonFooter, IonInput, IonButton, FormsModule],
-})
-export class SignupComponent  implements OnInit {
 
+})
+export class LoginComponent  implements OnInit {
   email = "";
   password = "";
 
@@ -24,10 +24,10 @@ export class SignupComponent  implements OnInit {
     this.router.navigate(['/home'])
   }
 
-  createAccount() {
+  validateUser() {
     console.log("Creating account with:", this.email, this.password);
     // passing the users detaisl to the sign up pservice
-    this.auth.registerUser(this.email, this.password).subscribe({ 
+    this.auth.loginUser(this.email, this.password).subscribe({ 
       // if the post is successful
       next: (response) => {
         const userId = response.id;
@@ -42,3 +42,4 @@ export class SignupComponent  implements OnInit {
   }
 
 }
+

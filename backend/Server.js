@@ -52,6 +52,27 @@ app.post('/register', async (req, res) => {
     } 
 });
 
+// retrieving a specifc user by email and password
+app.post('/login', async (req, res) => {
+    res.set('Access-Control-Allow-Origin', '*');
+    // pulling the email and the password out of the request body 
+    const { email, password } = req.body;
+    
+    try {
+        // searching the database for the email and password in the request body and assigning it to account
+        const account = await UserModel.findOne({ email, password }); 
+        // if the account doesnt exist it alerts the user 
+        if (!account) {
+            return res.status(401).json({ message: "Incorrect email or password" });
+        }
+        // if the account exists it allows the user to continue - sends back the users account id so they can be redirected to their create page 
+        res.status(200).json({ message: "Log in successful", id: account._id  });
+    } catch (error) {
+        console.error("Error:", error);
+        res.status(500).json({ message: "Server Error" });
+    }
+});
+
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });
