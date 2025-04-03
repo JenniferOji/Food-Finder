@@ -24,7 +24,11 @@
     "@ionic-native/geolocation": "^5.36.0",
     "@ionic/angular": "^8.0.0",
     "cordova-plugin-geolocation": "^5.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^5.1.0",
     "ionicons": "^7.0.0",
+    "mongoose": "^8.13.1",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.15.0"

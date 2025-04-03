@@ -1,0 +1,28 @@
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
+
+@Injectable({
+  providedIn: 'root'
+})
+
+// the service makes calls to the foursquare api to get restaurants
+export class FoursquareService {
+  private nearbyRestaurantsApi = 'https://api.foursquare.com/v3/places/search';
+  private apiKey = environment.foursquareApiKey; 
+
+  constructor(private http: HttpClient) { }
+
+  getRestaurants(latitude: number, longitude: number) {
+    // need headers for api authentication
+    const headers = new HttpHeaders({ 'Authorization': this.apiKey });
+    const params = {
+      ll: `${latitude},${longitude}`, // the users location (latitude and logitude)
+      query: 'restaurant', // searching for restaurants specifically
+      limit: '10' // the number of results
+    };
+
+    return this.http.get(this.nearbyRestaurantsApi, { headers, params });
+  }
+
+}

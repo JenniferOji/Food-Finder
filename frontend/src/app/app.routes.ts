@@ -5,14 +5,19 @@ import { FavouritesComponent } from './favourites/favourites.component';
 export const routes: Routes = [
   {
     path: 'home',
-    loadComponent: () => import('./home/home.page').then((m) => m.HomePage),
+    loadComponent: () => import('./home/home.page').then(m => m.HomePage)
   },
   {
     path: '',
     redirectTo: 'home',
-    pathMatch: 'full',
+    pathMatch: 'full'
   },
-  {path:"restaurants", component:RestaurantsComponent},
-  {path:"favourites", component:FavouritesComponent},
-
+  {
+    path: 'restaurants',
+    component: RestaurantsComponent
+  },
+  {
+    path: 'favourites',
+    component: FavouritesComponent
+  }
 ];

@@ -6,6 +6,7 @@ import { LocationService } from '../services/location.service';
 import { IonHeader, IonToolbar, IonTitle, IonContent, IonFooter, IonButtons, IonButton, IonIcon, IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent, IonList, IonItem, IonSelect, IonSelectOption, IonText, IonPopover} from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { homeOutline, heartOutline, mapOutline, ellipsisHorizontal } from 'ionicons/icons';
+import { FoursquareService } from '../services/foursquare.service';
 
 @Component({
   selector: 'app-restaurants',
@@ -28,7 +29,7 @@ export class RestaurantsComponent  implements OnInit {
     return Object.keys(obj);
   }
 
-  constructor(private router: Router, private hs: HttpService, private ls: LocationService){
+  constructor(private router: Router, private fsqs: FoursquareService,  private ls: LocationService){
     addIcons({
         homeOutline,
         heartOutline,
@@ -38,20 +39,6 @@ export class RestaurantsComponent  implements OnInit {
  }
 
   ngOnInit() {
-    // need to subscribe to an observable to get the data
-    this.hs.getRestaurants().subscribe({
-      next: (data) => {
-        this.restaurants = data;
-        this.groupRestaurantsByCuisine();
-
-      },
-      error: (err) => {
-        console.log(JSON.stringify(err))
-      },
-      complete: () => {
-        console.log("complete")
-      }
-    });
     // getting the users location when the component is loaded 
     this.getUserLocation();
   }
@@ -60,21 +47,40 @@ export class RestaurantsComponent  implements OnInit {
     try {
       this.position = await this.ls.getCurrentLocation();
       console.log(this.position);
+      // getting the nearby restaurants when the users location is found
+      await this.getNearbyRestaurants(
+        this.position.latitude,
+        this.position.longitude
+      );
     } catch (error) {
       console.error("Error getting location:", error);
     }
   }
 
+  // passing in the users coordinates to get restaurants in their area 
+  getNearbyRestaurants(lat: number, lon: number) {
+    this.fsqs.getRestaurants(lat, lon).subscribe((data: any) => {
+      this.restaurants = data.results; 
+      // calling the method to group the restaurants bu cuisine 
+      this.groupRestaurantsByCuisine();
+      console.log(this.restaurants);
+    }, error => {
+      console.error('Error fetching restaurants:', error);
+    });
+  }
+
+  // grouping the restaurants resuts by restaurant type - i.e : mexican, italian etc
   groupRestaurantsByCuisine() {
     this.cuisines = {}; // initialising an empty object has keys cuisines and array of restaurants as values
   
     this.restaurants.forEach((restaurant: any) => {
       // checking if the cuisine cataegory already exists in the cusisine object 
-      if (!this.cuisines[restaurant.cuisine]) { 
-        this.cuisines[restaurant.cuisine] = []; // if not it creates an empty array for that cuisine
+      if (!this.cuisines[restaurant.categories?.[0]?.name]) { 
+        this.cuisines[restaurant.categories?.[0]?.name ] = []; // if not it creates an empty array for that cuisine
       }
-      this.cuisines[restaurant.cuisine].push(restaurant); // adding the restaurant to the corresponding cuisine category 
+      this.cuisines[restaurant.categories?.[0]?.name ].push(restaurant); // adding the restaurant to the corresponding cuisine category 
     });
+    console.log(this.cuisines)
   }
 
   goToHome() {
@@ -100,10 +106,6 @@ export class RestaurantsComponent  implements OnInit {
     const roundRating = Math.round(parsedRating * 2.0) / 2.0; 
     return `assets/images/rating${roundRating}.png`;
   }
-  
-  
-  
-
 }
 
 
