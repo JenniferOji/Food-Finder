@@ -25,4 +25,10 @@ export class FoursquareService {
     return this.http.get(this.nearbyRestaurantsApi, { headers, params });
   }
 
+  private restaurantsApi = "https://jsonblob.com/api/jsonBlob/1356640862804828160";
+
+  public getRestaurantsjson(){
+    return this.http.get(this.restaurantsApi);
+  }
+
 }

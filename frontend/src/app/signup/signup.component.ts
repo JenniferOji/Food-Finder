@@ -31,6 +31,7 @@ export class SignupComponent  implements OnInit {
       // if the post is successful
       next: (response) => {
         const userId = response.id;
+        localStorage.setItem('userId', userId); // storing the users id in local storage for easier access 
         this.router.navigate(['/restaurants', userId]);
       },
       // if the post is unsuccessful

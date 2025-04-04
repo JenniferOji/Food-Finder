@@ -1,16 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { HttpService } from '../services/http.service';
-import { IonHeader, IonToolbar, IonTitle, IonContent, IonFooter, IonButtons, IonButton, IonIcon, IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent} from '@ionic/angular/standalone';
+import { IonHeader, IonToolbar, IonTitle, IonContent, IonFooter, IonButtons, IonButton, IonIcon, IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent, IonList, IonItem, IonLabel} from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { homeOutline, heartOutline, mapOutline, ellipsisHorizontal } from 'ionicons/icons';
+import { FavouritesService } from '../services/favourites.service';
 
 @Component({
   selector: 'app-favourites',
   templateUrl: './favourites.component.html',
   styleUrls: ['./favourites.component.scss'],
-  imports: [CommonModule, IonHeader, IonToolbar, IonTitle, IonContent, IonFooter, IonButtons, IonButton, IonIcon, IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent],
+  imports: [CommonModule, IonHeader, IonToolbar, IonTitle, IonContent, IonFooter, IonButtons, IonButton, IonIcon, IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent, IonList, IonItem, IonLabel ],
   // the icons being used in this page
   template: `<ion-icon name="home-outline"></ion-icon>
              <ion-icon name="heart-outline"></ion-icon>
@@ -19,8 +19,10 @@ import { homeOutline, heartOutline, mapOutline, ellipsisHorizontal } from 'ionic
 })
   
 export class FavouritesComponent  implements OnInit {
+  // storing the favourtied restaurants from the database
+  favourites: any[] = [];
 
-  constructor(private router: Router) { 
+  constructor(private router: Router, private favs: FavouritesService) { 
     addIcons({
       homeOutline,
       heartOutline,
@@ -29,10 +31,30 @@ export class FavouritesComponent  implements OnInit {
     });
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    // getting the users favourtied restaurants when the page loads 
+    this.loadFavourites(); 
+  }
 
-  goHome() {
+  // getting the users favourtied restaurants from the database
+  loadFavourites() {
+    this.favs.getFavourites().subscribe({
+      next: (data) => {
+        this.favourites = data;
+      },
+      error: (error) => {
+        console.error("Error getting favourites:", error);
+      }
+    });
+  }
+
+  // navigation buttons for the footer 
+  goToHome() {
     this.router.navigate(['/restaurants'])
+  }
+
+  goToFavourites() {
+    this.router.navigate(['/favourites'])
   }
 
   logOut() {

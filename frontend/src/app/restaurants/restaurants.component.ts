@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { HttpService } from '../services/http.service';
 import { LocationService } from '../services/location.service';
 import { IonHeader, IonToolbar, IonTitle, IonContent, IonFooter, IonButtons, IonButton, IonIcon, IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent, IonList, IonItem, IonSelect, IonSelectOption, IonText, IonPopover} from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { homeOutline, heartOutline, mapOutline, ellipsisHorizontal } from 'ionicons/icons';
 import { FoursquareService } from '../services/foursquare.service';
+import { FavouritesService } from '../services/favourites.service';
 
 @Component({
   selector: 'app-restaurants',
@@ -23,13 +23,14 @@ export class RestaurantsComponent  implements OnInit {
   restaurants!: any;
   cuisines!: any;
   position: any;
+  userId!: any;
 
   // returning an array of objects - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/keys
   objectKeys(obj: any): string[] {
     return Object.keys(obj);
   }
 
-  constructor(private router: Router, private fsqs: FoursquareService,  private ls: LocationService){
+  constructor(private router: Router, private fsqs: FoursquareService,  private ls: LocationService, private favs: FavouritesService){
     addIcons({
         homeOutline,
         heartOutline,
@@ -83,6 +84,21 @@ export class RestaurantsComponent  implements OnInit {
     console.log(this.cuisines)
   }
 
+  // adding a restaurant to the favourties page 
+  addRestaurantToFavourites(restaurant: any) {
+    console.log("restaurant:", restaurant );
+    // passing the selected restaurant to the service
+    this.favs.addToFavourties(restaurant.fsq_id, restaurant.name).subscribe({ 
+      next: (response) => {
+        alert(restaurant.name + restaurant.id + " added to favourties");
+      },
+      error: (error) => {
+        console.log("error: " + error)
+      }
+    });
+  }
+
+  // navigation buttons on the footer
   goToHome() {
     this.router.navigate(['/restaurants'])
   }

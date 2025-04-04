@@ -29,7 +29,11 @@ mongoose.connect(process.env.MONGO_URI)
 // creating a scehma in the database for all the newly registered users - the values the schema will hold 
 const userSchema = new mongoose.Schema({
     email: String,
-    password: String
+    password: String,
+    favourites: [{
+        restaurantId: String,
+        restaurantName: String     
+    }]
 }); 
 
 const UserModel = mongoose.model('User', userSchema);
@@ -72,6 +76,50 @@ app.post('/login', async (req, res) => {
         res.status(500).json({ message: "Server Error" });
     }
 });
+
+// posting the users favourtied restaurants 
+app.post('/favourites', async (req, res) => {
+    res.set('Access-Control-Allow-Origin', '*');
+    // pulling the id and restaurant out of the request body
+    const { userId, restaurantId, restaurantName } = req.body;
+    
+    try {
+        // finding their user by their id an dupdating their favourties list
+        const user = await UserModel.findByIdAndUpdate(userId, 
+            { 
+                $addToSet: { 
+                    favourites: { 
+                        restaurantId: restaurantId, 
+                        restaurantName: restaurantName 
+                    } 
+                } 
+            }, 
+            { new: true }
+        );
+        // if the account exists it allows the user to continue - sends back the users account id so they can be redirected to their create page 
+        res.status(200).json({ message: "Added to favourites", user: user.favourites });
+    } catch (error) {
+        console.error("Error:", error);
+        res.status(500).json({ message: "Server Error" });
+    } 
+});
+
+// getting the users favourtied restaurants 
+app.get('/favourites/:id', async (req, res) => {
+    res.set('Access-Control-Allow-Origin', '*');
+    // getting the id from the request parameter
+    const { id } = req.params; 
+
+    try {
+        // finding the users account by their id
+        const user = await UserModel.findById(id);
+        res.status(200).json(user.favourites); // sending back the users favourited restaurants
+    } catch (error) {
+        console.error("Error:", error);
+        res.status(500).json({ message: "Server Error" });
+    }
+});
+
 
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);

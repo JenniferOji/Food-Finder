@@ -7,19 +7,33 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <p> hello</p>
+  <!-- displaying ththe content until there are no more rstaurants left to display -->
+  <div *ngIf="favourites.length > 0; else noFavouritesYet">
+    <ion-list>
+      <ion-item *ngFor="let fav of favourites">
+        <ion-label>
+          <h2>{{ fav.restaurantName }}</h2>
+          <p>id: {{ fav.restaurantId }}</p>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+  </div>
 
+  <!-- page output if there are no favourties yet -->
+  <ng-template #noFavouritesYet>
+    <h2>No favourites added yet</h2>
+  </ng-template>
 </ion-content>
 
 <ion-footer>
   <ion-toolbar>
     <ion-buttons class="navigation-buttons">
-      <ion-button (click)="goHome()">
+      <ion-button (click)="goToHome()">
         <ion-icon name="home-outline" class="icons"></ion-icon> 
       </ion-button>
-      <ion-button (click)="goHome()">
+      <ion-button (click)="goToFavourites()">
         <ion-icon name="heart-outline" class="icons"></ion-icon> 
-      </ion-button><ion-button (click)="goHome()">
+      </ion-button><ion-button (click)="goToHome()">
         <ion-icon name="map-outline" class="icons"></ion-icon> 
       </ion-button>
     </ion-buttons>

@@ -31,7 +31,8 @@ export class LoginComponent  implements OnInit {
       // if the post is successful
       next: (response) => {
         const userId = response.id;
-        this.router.navigate(['/restaurants', userId]);
+        localStorage.setItem('userId', userId); // storing the users id in local storage
+        this.router.navigate(['/restaurants']);
       },
       // if the post is unsuccessful
       error: (error) => {

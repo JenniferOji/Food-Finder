@@ -31,7 +31,7 @@
                 <ng-template>
                   <ion-content id="popover-content">
                     <ion-list>
-                      <ion-item [button]="true" [detail]="false">Add to favourites</ion-item>
+                      <ion-item [button]="true" [detail]="false" (click)="addRestaurantToFavourites(restaurant)">Add to favourites</ion-item>
                       <ion-item [button]="true" [detail]="false">Option 2</ion-item>
                     </ion-list>
                   </ion-content>
