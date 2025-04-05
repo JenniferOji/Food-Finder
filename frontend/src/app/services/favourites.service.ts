@@ -22,5 +22,13 @@ export class FavouritesService {
     return this.http.get(`${environment.backendUrl}/favourites/${userId}`);
   }
   
+  // deleting a restaurant form the favourties page
+  deleteFavourite(restaurantId: string): Observable<any> {
+    const userId = localStorage.getItem('userId'); 
+    return this.http.delete(`${environment.backendUrl}/favourites/${userId}`, {
+      body: { restaurantId },
+    });
+  }
+  
 
 }

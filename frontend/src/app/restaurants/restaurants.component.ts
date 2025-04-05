@@ -41,32 +41,24 @@ export class RestaurantsComponent  implements OnInit {
 
   ngOnInit() {
     // getting the users location when the component is loaded 
-    this.getUserLocation();
-  }
-
-  async getUserLocation() {
-    try {
-      this.position = await this.ls.getCurrentLocation();
-      console.log(this.position);
-      // getting the nearby restaurants when the users location is found
-      await this.getNearbyRestaurants(
-        this.position.latitude,
-        this.position.longitude
-      );
-    } catch (error) {
-      console.error("Error getting location:", error);
-    }
+    const latitude = parseFloat(localStorage.getItem('latitude')!);
+    const longitude = parseFloat(localStorage.getItem('longitude')!);    
+    console.log(latitude, longitude);
+    this.getNearbyRestaurants(latitude, longitude);
   }
 
   // passing in the users coordinates to get restaurants in their area 
   getNearbyRestaurants(lat: number, lon: number) {
-    this.fsqs.getRestaurants(lat, lon).subscribe((data: any) => {
-      this.restaurants = data.results; 
-      // calling the method to group the restaurants bu cuisine 
-      this.groupRestaurantsByCuisine();
-      console.log(this.restaurants);
-    }, error => {
-      console.error('Error fetching restaurants:', error);
+    this.fsqs.getRestaurants(lat, lon).subscribe({
+      next: (data: any) => {
+        this.restaurants = data.results; 
+        // grouping the restaurants from the api by cusisine 
+        this.groupRestaurantsByCuisine();
+        console.log(this.restaurants);
+      },
+      error: (error) => {
+        console.error('error getting restaurants:', error);
+      }
     });
   }
 
@@ -76,10 +68,10 @@ export class RestaurantsComponent  implements OnInit {
   
     this.restaurants.forEach((restaurant: any) => {
       // checking if the cuisine cataegory already exists in the cusisine object 
-      if (!this.cuisines[restaurant.categories?.[0]?.name]) { 
-        this.cuisines[restaurant.categories?.[0]?.name ] = []; // if not it creates an empty array for that cuisine
+      if (!this.cuisines[restaurant.categories?.[0]?.plural_name]) { 
+        this.cuisines[restaurant.categories?.[0]?.plural_name ] = []; // if not it creates an empty array for that cuisine
       }
-      this.cuisines[restaurant.categories?.[0]?.name ].push(restaurant); // adding the restaurant to the corresponding cuisine category 
+      this.cuisines[restaurant.categories?.[0]?.plural_name ].push(restaurant); // adding the restaurant to the corresponding cuisine category 
     });
     console.log(this.cuisines)
   }
@@ -90,7 +82,7 @@ export class RestaurantsComponent  implements OnInit {
     // passing the selected restaurant to the service
     this.favs.addToFavourties(restaurant.fsq_id, restaurant.name).subscribe({ 
       next: (response) => {
-        alert(restaurant.name + restaurant.id + " added to favourties");
+        console.log(restaurant.name + restaurant.id + " added to favourties");
       },
       error: (error) => {
         console.log("error: " + error)

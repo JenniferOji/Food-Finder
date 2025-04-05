@@ -19,3 +19,35 @@ ion-toolbar {
     width: auto;
     transform: translateY(-12px); // moving the logo up to fit in the toolbar
 }
+
+ion-card {
+    border-radius: 15px;
+    min-width: 300px; 
+    max-width: 400px; 
+    flex-shrink: 0; // prevents the cards from shrinking 
+    border-radius: 15px;
+}
+
+ion-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+
+.cards-displays {
+    overflow-y: auto;  // vertical scrolling
+    padding: 10px 0; 
+    scrollbar-width: thin; 
+    scrollbar-color: #888 #f1f1f1;
+}
+
+.content {
+    display: flex;
+    align-items: center;
+    gap: 90px;
+}
+
+.heart-icon {
+    font-size: 40px;
+}

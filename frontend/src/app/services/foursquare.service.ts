@@ -18,7 +18,7 @@ export class FoursquareService {
     const headers = new HttpHeaders({ 'Authorization': this.apiKey });
     const params = {
       ll: `${latitude},${longitude}`, // the users location (latitude and logitude)
-      query: 'restaurant', // searching for restaurants specifically
+      categories: '13065', // searching for restaurants specifically  query: 'restaurant'
       limit: '10' // the number of results
     };
 

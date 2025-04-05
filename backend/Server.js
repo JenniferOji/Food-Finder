@@ -120,6 +120,30 @@ app.get('/favourites/:id', async (req, res) => {
     }
 });
 
+// getting the users favourtied restaurants 
+app.delete('/favourites/:id', async (req, res) => {
+    res.set('Access-Control-Allow-Origin', '*');
+    // getting the id from the request parameter
+    const { id } = req.params; 
+    const { restaurantId } = req.body; 
+
+    try {
+        // finding the users account by their id
+        const user = await UserModel.findByIdAndUpdate(
+            //https://www.mongodb.com/docs/manual/reference/operator/update/pull/#:~:text=The%20%24pull%20operator%20removes%20from,that%20match%20a%20specified%20condition.
+            id, 
+            { $pull: {favourites: {restaurantId: restaurantId} } },
+            { new: true }
+        );
+        
+        res.status(200).json(user.favourites); // sending back the users favourited restaurant
+    } catch (error) {
+        console.error("Error:", error);
+        res.status(500).json({ message: "Server Error" });
+    }
+});
+
+
 
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
