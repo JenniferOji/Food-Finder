@@ -77,6 +77,10 @@ export class FavouritesComponent  implements OnInit {
     this.router.navigate(['/favourites'])
   }
 
+  goToMap() {
+    this.router.navigate(['/map'])
+  }
+  
   logOut() {
     this.router.navigate(['/home'])
   }

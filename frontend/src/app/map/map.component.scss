@@ -1,0 +1,26 @@
+.navigation-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+}
+
+.icons {
+    font-size: 42px;
+    color: #6FC340;
+}
+
+ion-toolbar {
+    height: 65px; 
+}
+
+#mini-logo {
+    height: 60px;
+    width: auto;
+    transform: translateY(-12px); // moving the logo up to fit in the toolbar
+}
+
+#map {
+    height: 100%;
+    width: 100%;
+}

@@ -3,6 +3,7 @@ import { RestaurantsComponent } from './restaurants/restaurants.component';
 import { FavouritesComponent } from './favourites/favourites.component';
 import { SignupComponent } from './signup/signup.component';
 import { LoginComponent } from './login/login.component';
+import { MapComponent } from './map/map.component';
 
 export const routes: Routes = [
   {
@@ -31,6 +32,9 @@ export const routes: Routes = [
   }, 
   { path: 'login', 
     component: LoginComponent
+  }, 
+  { path: 'map', 
+    component: MapComponent
   }, 
 
 ];

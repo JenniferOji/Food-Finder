@@ -1,0 +1,26 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-button fill="clear">
+      <img src="assets/images/mini.png" id="mini-logo" (click)="logOut()">
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div id="map"></div>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-buttons class="navigation-buttons">
+      <ion-button (click)="goToHome()">
+        <ion-icon name="home-outline" class="icons"></ion-icon> 
+      </ion-button>
+      <ion-button (click)="goToFavourites()">
+        <ion-icon name="heart-outline" class="icons"></ion-icon> 
+      </ion-button><ion-button (click)="goToMap()">
+        <ion-icon name="map-outline" class="icons"></ion-icon> 
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

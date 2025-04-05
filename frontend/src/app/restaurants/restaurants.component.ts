@@ -99,9 +99,14 @@ export class RestaurantsComponent  implements OnInit {
     this.router.navigate(['/favourites'])
   }
 
+  goToMap() {
+    this.router.navigate(['/map'])
+  }
+
   logOut() {
     this.router.navigate(['/home'])
   }
+
 
   stars(rating: any): string {
     // converting the number to a float 
