@@ -22,7 +22,7 @@ export class MapComponent implements OnInit {
 
   latitude = parseFloat(localStorage.getItem('latitude')!);
   longitude = parseFloat(localStorage.getItem('longitude')!);    
-  private centroid: L.LatLngExpression = [this.latitude, this.longitude]; // users coords 
+  private centroid: L.LatLngExpression = [this.latitude, this.longitude]; // users coords as the centerpoint
 
   constructor(private router: Router) {
     addIcons({

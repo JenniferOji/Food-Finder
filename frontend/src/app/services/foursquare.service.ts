@@ -26,9 +26,20 @@ export class FoursquareService {
   }
 
   private restaurantsApi = "https://jsonblob.com/api/jsonBlob/1356640862804828160";
+  private reviews = "http://jsonblob.com/api/jsonBlob/1358363956711972864";
 
   public getRestaurantsjson(){
     return this.http.get(this.restaurantsApi);
+  }
+
+  public getReviews(fsqId: string){
+    const headers = new HttpHeaders({ 'Authorization': this.apiKey });
+    // finding the reviews for the passed in restaurant using its fsq_id
+    const reviews = `https://api.foursquare.com/v3/places/${fsqId}/tips`;
+
+    return this.http.get(this.reviews);
+    // return this.http.get(reviews, { headers });
+
   }
 
 }

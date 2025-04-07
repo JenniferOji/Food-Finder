@@ -4,6 +4,7 @@ import { FavouritesComponent } from './favourites/favourites.component';
 import { SignupComponent } from './signup/signup.component';
 import { LoginComponent } from './login/login.component';
 import { MapComponent } from './map/map.component';
+import { ReviewsComponent } from './reviews/reviews.component';
 
 export const routes: Routes = [
   {
@@ -35,6 +36,12 @@ export const routes: Routes = [
   }, 
   { path: 'map', 
     component: MapComponent
+  }, 
+  { path: 'reviews', 
+    component: ReviewsComponent
+  }, 
+  { path: 'reviews/:id', 
+    component: ReviewsComponent
   }, 
 
 ];

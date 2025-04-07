@@ -90,6 +90,10 @@ export class RestaurantsComponent  implements OnInit {
     });
   }
 
+  checkReviews(restaurant: any){
+    const fsqId = restaurant.fsq_id;
+    this.router.navigate(['/reviews', fsqId])
+  }
   // navigation buttons on the footer
   goToHome() {
     this.router.navigate(['/restaurants'])

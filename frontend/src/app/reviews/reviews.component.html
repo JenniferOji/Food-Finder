@@ -7,27 +7,21 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <!-- displaying the content until there are no more rstaurants left to display -->
-  <div *ngIf="favourites.length > 0; else noFavouritesYet" class="cards-displays">
-    <ion-card *ngFor="let fav of favourites">
+  <!-- displaying ththe content until there are no more rstaurants left to display -->
+  <div class="cards-displays">
+    <ion-card *ngFor="let review of reviews">
       <ion-card-header>
-        <ion-card-title>{{ fav.restaurantName }}</ion-card-title>
+        <ion-card-title>{{ review.created_at | date:'medium' }}</ion-card-title>
       </ion-card-header>
     
       <ion-card-content class="content">
-        <p>id: {{ fav.restaurantId }}</p>
-        <ion-buttons>
-          <ion-button (click)="deleteFromFavourites(fav.restaurantId)">
-            <!-- <ion-icon name="heart-circle-outline" class="heart-icon"  color="danger"></ion-icon> -->
-            <ion-icon name="heart-circle" class="heart-icon"  color="danger" ></ion-icon>
-          </ion-button>
-        </ion-buttons>
+        <p>{{ review.text }}</p>
       </ion-card-content>
     </ion-card>
   </div>
-
+  
   <!-- page output if there are no favourties yet -->
-  <ng-template #noFavouritesYet>
+  <ng-template #noReviewsYet>
     <h2>You have no favourites. Start adding now!</h2>
   </ng-template>
 </ion-content>

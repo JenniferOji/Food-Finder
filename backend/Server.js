@@ -126,7 +126,7 @@ app.delete('/favourites/:id', async (req, res) => {
     // getting the id from the request parameter
     const { id } = req.params; 
     const { restaurantId } = req.body; 
-
+ 
     try {
         // finding the users account by their id
         const user = await UserModel.findByIdAndUpdate(
