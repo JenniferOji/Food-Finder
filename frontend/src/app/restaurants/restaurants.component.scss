@@ -73,3 +73,18 @@ ion-card-title {
     white-space: normal;  // allows the text to wrap
     overflow-wrap: break-word; 
 }
+
+#menu-button {
+    font-size: 50px;
+    transform: translateY(-10px);
+    color: white;
+}
+
+.menu-title {
+    padding-left: 0 !important;
+    margin-left: 0 !important;
+}
+  
+#menu{
+    background-color: #2E4B45 ;
+}
