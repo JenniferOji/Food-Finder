@@ -45,7 +45,7 @@ export class FoursquareService {
     const headers = new HttpHeaders({ 'Authorization': this.apiKey });
     // calling the api to access photos
     const url = `https://api.foursquare.com/v3/places/${fsqId}/photos`;
-
+    
     return this.http.get(url, { headers });
   }
 
