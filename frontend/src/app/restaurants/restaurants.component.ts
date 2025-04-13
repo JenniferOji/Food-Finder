@@ -28,7 +28,9 @@ export class RestaurantsComponent  implements OnInit {
   position: any;
   userId!: any;
   chosenDistance!: number;
-  menuChildren: boolean = false;
+  distanceMenuChildren: boolean = false;
+  chosenRating!: number;
+  ratingMenuChildren: boolean = false;
 
   // returning an array of objects - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/keys
   objectKeys(obj: any): string[] {
@@ -45,25 +47,54 @@ export class RestaurantsComponent  implements OnInit {
  }
 
   ngOnInit() {
-    // getting the users location when the component is loaded 
-    const latitude = parseFloat(localStorage.getItem('latitude')!);
-    const longitude = parseFloat(localStorage.getItem('longitude')!);    
-    console.log(latitude, longitude);
-    this.getNearbyRestaurants(latitude, longitude);
+    // getting the restaurants when the page is loaded
+    this.getNearbyRestaurants();
   }
 
   distances = [
-    { label: '2 km', value: 2000 }, // 2km
-    { label: '5 km', value: 5000 }, // 5km
-    { label: '10 km', value: 10000 },  //10 
-    { label: '15 km', value: 20000 } // 15km
+    { label: '2 km', value: 2000 }, 
+    { label: '5 km', value: 5000 }, 
+    { label: '10 km', value: 10000 }, 
+    { label: '15 km', value: 20000 } 
+  ];
+
+  ratings = [
+    { label: '1 star', value: 1 }, 
+    { label: '2 star', value: 2 }, 
+    { label: '3 star', value: 3 }, 
+    { label: '4 star', value: 4 },
+    { label: '5 star', value: 5 }
   ];
 
   // passing in the users coordinates to get restaurants in their area 
-  getNearbyRestaurants(lat: number, lon: number) {
-    this.fsqs.getRestaurants(lat, lon).subscribe({
+  getNearbyRestaurants() {
+    // getting the users location when the page is loaded 
+    const latitude = parseFloat(localStorage.getItem('latitude')!);
+    const longitude = parseFloat(localStorage.getItem('longitude')!);
+
+    this.fsqs.getRestaurants(latitude, longitude).subscribe({
       next: (data: any) => {
         this.restaurants = data.results; 
+
+      // getting a photo for each restaurant
+      this.restaurants.forEach((restaurant: any) => {
+        this.fsqs.getRestaurantPhotos(restaurant.fsq_id).subscribe({
+          next: (photos: any) => {
+            if (photos.length > 0) {
+              const photo = photos[0]; // getting the first photo from the returned array of photos
+              restaurant.photoURL = `${photo.prefix}original${photo.suffix}`; //https://stackoverflow.com/questions/33148300/how-do-i-use-the-link-for-a-foursquare-photo
+            } 
+            // displaying the app logo if a restaurant does not have an image 
+            else {
+              restaurant.photoURL = 'assets/images/logo.png';
+            }
+          },
+          error: () => {
+            restaurant.photoURL = 'assets/images/logo.png'; 
+          }
+        });
+      });
+
         // grouping the restaurants from the api by cusisine 
         this.groupRestaurantsByCuisine();
         console.log(this.restaurants);
@@ -76,9 +107,14 @@ export class RestaurantsComponent  implements OnInit {
 
   // displaying the distance options on the menu
   showDistances(): void {
-    this.menuChildren = !this.menuChildren; // changing to true / false - to show / hide the buttons
+    this.distanceMenuChildren = !this.distanceMenuChildren; // changing to true / false - to show / hide the buttons
   }
 
+  // displaying the ratings options on the menu
+  showRatings(): void {
+     this.ratingMenuChildren = !this.ratingMenuChildren; // changing to true / false - to show / hide the buttons
+  }
+  
   // function to filter the restaurants based on distance 
   changeDistance(distance: number) {
     this.chosenDistance = distance; // the distance th euser chose out of the options 
@@ -93,6 +129,8 @@ export class RestaurantsComponent  implements OnInit {
         });
         // regrouping the restaurants based on the filter 
         this.groupRestaurantsByCuisine(); 
+        this.distanceMenuChildren = !this.distanceMenuChildren; // changing to true / false - to show / hide the buttons
+
       },
       error: (error) => {
         console.error('error filtering restaurants:', error);
@@ -100,6 +138,18 @@ export class RestaurantsComponent  implements OnInit {
     });
   }
 
+  openNow() {
+    
+  }
+
+  changeRating(chosenRating: number) {
+    this.restaurants = this.restaurants.filter((restaurant: any) => {
+      console.log(restaurant.average_rating);
+      return restaurant.average_rating >= this.chosenRating;
+    });
+    this.groupRestaurantsByCuisine();
+  }
+  
   // grouping the restaurants resuts by restaurant type - i.e : mexican, italian etc
   groupRestaurantsByCuisine() {
     this.cuisines = {}; // initialising an empty object has keys cuisines and array of restaurants as values

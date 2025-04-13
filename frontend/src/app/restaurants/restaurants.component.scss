@@ -50,7 +50,7 @@ ion-content {
 #content {
     display: flex;
     align-items: center;
-    gap: 30px;
+    gap: 100px;
 }
 
 #restaurant-cards {
@@ -87,4 +87,18 @@ ion-card-title {
   
 #menu{
     background-color: #2E4B45 ;
+}
+
+#image {
+    height: 100px;
+    width: 100px;
+    border-radius: 50%;
+    overflow: hidden; 
+}
+
+#restaurant-image {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;   
+    border-radius: 50%; 
 }
