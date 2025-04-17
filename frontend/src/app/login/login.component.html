@@ -7,23 +7,32 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-input
-    type="email"
-    fill="solid"
-    label="Email"
-    labelPlacement="floating"
-    errorText="Invalid email"
-    email
-    [(ngModel)]="email">
-  </ion-input>
-  <ion-input
-    type="password"
-    fill="solid"
-    label="password"
-    labelPlacement="floating"
-    password
-    [(ngModel)]="password">
-  </ion-input>
+  <div class="email-div">
+    <h2>Username</h2>
+    <ion-input
+      class="input-boxes"
+      type="email"
+      fill="solid"
+      labelPlacement="floating"
+      errorText="Invalid email"
+      email
+      [(ngModel)]="email">
+    </ion-input>
+  </div>
+  <div class="password-div">
+    <h2>Password</h2>
+    <ion-input
+      class="input-boxes"
+      type="password"
+      fill="solid"
+      labelPlacement="floating"
+      password
+      [(ngModel)]="password">
+    </ion-input>
+  </div>
 
-  <ion-button (click)="validateUser()">Log In</ion-button>
+
+  <div class="button-holder">
+    <button (click)="validateUser()" class="log-in-button">Log In</button>
+  </div>
 </ion-content>

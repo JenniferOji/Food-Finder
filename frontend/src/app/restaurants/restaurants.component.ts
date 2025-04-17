@@ -7,8 +7,7 @@ import { addIcons } from 'ionicons';
 import { homeOutline, heartOutline, mapOutline, ellipsisHorizontal } from 'ionicons/icons';
 import { FoursquareService } from '../services/foursquare.service';
 import { FavouritesService } from '../services/favourites.service';
-import { MenuController } from '@ionic/angular';
-
+import { MenuController, GestureController, Gesture } from '@ionic/angular';
 
 @Component({
   selector: 'app-restaurants',
@@ -37,7 +36,7 @@ export class RestaurantsComponent  implements OnInit {
     return Object.keys(obj);
   }
 
-  constructor(private router: Router, private fsqs: FoursquareService,  private ls: LocationService, private favs: FavouritesService, private menu: MenuController){
+  constructor(private router: Router, private fsqs: FoursquareService,  private ls: LocationService, private favs: FavouritesService, private menu: MenuController, private gesture: GestureController){
     addIcons({
         homeOutline,
         heartOutline,
@@ -49,6 +48,26 @@ export class RestaurantsComponent  implements OnInit {
   ngOnInit() {
     // getting the restaurants when the page is loaded
     this.getNearbyRestaurants();
+  }
+
+  ngAfterViewInit() {
+    // swiping to close the menu 
+    const menuElement = document.querySelector('ion-menu');
+    if (menuElement) {
+      const swipeGesture: Gesture = this.gesture.create({
+        el: menuElement,
+        gestureName: 'swipe-gesture',
+        direction: 'x', // detecting a swipe in the horizontal
+        threshold: 15,
+        onEnd: (event) => {
+          // closing the menu when swiped left
+          if (event.deltaX < -50) {
+            this.menu.close(); 
+          }
+        }
+      });
+      swipeGesture.enable();
+    }
   }
 
   distances = [
@@ -109,11 +128,6 @@ export class RestaurantsComponent  implements OnInit {
   showDistances(): void {
     this.distanceMenuChildren = !this.distanceMenuChildren; // changing to true / false - to show / hide the buttons
   }
-
-  // displaying the ratings options on the menu
-  showRatings(): void {
-     this.ratingMenuChildren = !this.ratingMenuChildren; // changing to true / false - to show / hide the buttons
-  }
   
   // function to filter the restaurants based on distance 
   changeDistance(distance: number) {
@@ -149,7 +163,7 @@ export class RestaurantsComponent  implements OnInit {
     });
     this.groupRestaurantsByCuisine();
   }
-  
+
   // grouping the restaurants resuts by restaurant type - i.e : mexican, italian etc
   groupRestaurantsByCuisine() {
     this.cuisines = {}; // initialising an empty object has keys cuisines and array of restaurants as values
@@ -168,7 +182,7 @@ export class RestaurantsComponent  implements OnInit {
   addRestaurantToFavourites(restaurant: any) {
     console.log("restaurant:", restaurant );
     // passing the selected restaurant to the service
-    this.favs.addToFavourties(restaurant.fsq_id, restaurant.name).subscribe({ 
+    this.favs.addToFavourties(restaurant.fsq_id, restaurant.name, restaurant.photoURL, restaurant.location?.formatted_address).subscribe({ 
       next: (response) => {
         console.log(restaurant.name + restaurant.id + " added to favourties");
       },

@@ -39,12 +39,22 @@
 <div class="ion-page" id="main-content">
   <ion-header [translucent]="true">
     <ion-toolbar>
-      <ion-button fill="clear">
-        <img src="assets/images/mini.png" id="mini-logo" (click)="logOut()">
+      <ion-button fill="clear" id="log-out-trigger">
+        <img src="assets/images/mini.png" id="mini-logo">
       </ion-button>
       <ion-button slot="end" fill="clear">
         <ion-menu-button id="menu-button"></ion-menu-button>
       </ion-button>
+      <!-- the pop up when the logout button is clicked  -->
+      <ion-popover trigger="log-out-trigger" [dismissOnSelect]="true">
+        <ng-template>
+          <ion-content id="popover-content">
+            <div>
+              <button (click)="logOut()" class="logout-button">Log Out</button>
+            </div>
+          </ion-content>
+        </ng-template>
+      </ion-popover>
     </ion-toolbar>
   </ion-header>
 

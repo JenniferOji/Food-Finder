@@ -19,7 +19,7 @@ export class FoursquareService {
     const params = {
       ll: `${latitude},${longitude}`, // the users location (latitude and logitude)
       categories: '13065', // searching for restaurants specifically  query: 'restaurant'
-      limit: '10', // the number of results
+      limit: '50', // the number of results
     };
 
     return this.http.get(this.nearbyRestaurantsApi, { headers, params });
@@ -37,8 +37,8 @@ export class FoursquareService {
     // finding the reviews for the passed in restaurant using its fsq_id
     const reviews = `https://api.foursquare.com/v3/places/${fsqId}/tips`;
 
-    return this.http.get(this.reviews);
-    // return this.http.get(reviews, { headers });
+    // return this.http.get(this.reviews);
+    return this.http.get(reviews, { headers });
   }
 
   public getRestaurantPhotos(fsqId: string) {

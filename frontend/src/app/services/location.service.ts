@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
+import { Geolocation, Position } from '@capacitor/geolocation';
 
 @Injectable({
   providedIn: 'root',
 })
 export class LocationService {
   constructor() {}
-
   //https://jigneshkumar1494.medium.com/how-to-get-current-location-in-angular-14-cbb1fa403560#:~:text=getCurrentLocation()%3B,and%20longitude%20on%20the%20console.
   getCurrentLocation() {
     return new Promise((resolve, reject) => {
@@ -34,3 +34,4 @@ export class LocationService {
     });
   }
 }
+

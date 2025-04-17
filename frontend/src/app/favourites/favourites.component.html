@@ -1,28 +1,50 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-button fill="clear">
-      <img src="assets/images/mini.png" id="mini-logo" (click)="logOut()">
+    <ion-button fill="clear" id="log-out-trigger">
+      <img src="assets/images/mini.png" id="mini-logo">
     </ion-button>
+    <!-- the pop up when the logout button is clicked  -->
+    <ion-popover trigger="log-out-trigger" [dismissOnSelect]="true">
+      <ng-template>
+        <ion-content id="popover-content">
+          <div>
+            <button (click)="logOut()" class="logout-button">Log Out</button>
+          </div>
+        </ion-content>
+      </ng-template>
+    </ion-popover>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
   <!-- displaying the content until there are no more rstaurants left to display -->
   <div *ngIf="favourites.length > 0; else noFavouritesYet" class="cards-displays">
-    <ion-card *ngFor="let fav of favourites">
-      <ion-card-header>
-        <ion-card-title>{{ fav.restaurantName }}</ion-card-title>
-      </ion-card-header>
-    
-      <ion-card-content class="content">
-        <p>id: {{ fav.restaurantId }}</p>
-        <ion-buttons>
-          <ion-button (click)="deleteFromFavourites(fav.restaurantId)">
-            <!-- <ion-icon name="heart-circle-outline" class="heart-icon"  color="danger"></ion-icon> -->
-            <ion-icon name="heart-circle" class="heart-icon"  color="danger" ></ion-icon>
-          </ion-button>
-        </ion-buttons>
-      </ion-card-content>
+    <ion-card *ngFor="let fav of favourites" class="fav-card">
+      <div class="card-content">
+        <div class="fav-img">
+          <img [src]="fav.restaurantImageURL" alt="Restaurant Image" />
+        </div>
+        <div class="fav-info">
+          <ion-card-title>{{ fav.restaurantName }}</ion-card-title>
+          <ion-card-subtitle>{{ fav.restaurantLocation }}</ion-card-subtitle>
+        </div>
+        <ion-button fill="clear" id="unique-button-{{fav.restaurantName}}">
+          <ion-icon name="heart-circle" class="heart-icon" color="danger"></ion-icon>
+        </ion-button>
+        <!-- popup when the user tries to delete an item -->
+         <!-- the pop up when the logout button is clicked  -->
+        <ion-popover trigger="unique-button-{{fav.restaurantName}}" [dismissOnSelect]="true">
+          <ng-template>
+              <div class="remove-container">
+                <h4>Remove from favourites</h4>
+                <div>
+                  <button (click)="deleteFromFavourites(fav.restaurantId)" class="remove-options-yes">yes</button>
+                  <button class="remove-options-no">no</button>
+              </div>
+            </div>
+          </ng-template>
+        </ion-popover>
+      </div>
     </ion-card>
   </div>
 

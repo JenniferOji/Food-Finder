@@ -7,15 +7,17 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-input
-    type="email"
-    fill="solid"
-    label="Email"
-    labelPlacement="floating"
-    errorText="Invalid email"
-    email
-    [(ngModel)]="email">
-  </ion-input>
+  <div>
+    <ion-input
+      type="email"
+      fill="solid"
+      label="Email"
+      labelPlacement="floating"
+      errorText="Invalid email"
+      email
+      [(ngModel)]="email">
+    </ion-input>
+  </div>
   <ion-input
     type="password"
     fill="solid"

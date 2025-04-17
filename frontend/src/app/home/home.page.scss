@@ -10,6 +10,17 @@ ion-content.home-page {
   top: 20%;
 }
 
+.logo-container {
+  display: flex;
+  justify-content: center;
+}
+
+.logo {
+  width: 100%;
+  max-width: 340px;
+  height: auto;
+}
+
 #option-buttons {
   display: flex;
   text-align: center;
@@ -26,4 +37,5 @@ ion-content.home-page {
   font-weight: 200;
   width: 35%;
   height:auto;
+  color: black;
 }

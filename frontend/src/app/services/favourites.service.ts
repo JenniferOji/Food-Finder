@@ -11,9 +11,10 @@ export class FavouritesService {
   constructor(private http: HttpClient) {}
 
   // posting the favourited restaurant to the database
-  addToFavourties(restaurantId: string, restaurantName: string): Observable<any> { 
+  addToFavourties(restaurantId: string, restaurantName: string, restaurantImageURL: string, restaurantLocation: string): Observable<any> { 
     const userId = localStorage.getItem('userId'); 
-    return this.http.post(`${environment.backendUrl}/favourites`, { userId, restaurantId, restaurantName}); 
+    return this.http.post(`${environment.backendUrl}/favourites`, { userId, restaurantId, restaurantName, restaurantImageURL, restaurantLocation
+    }); 
   }
 
   // getting the users favourtied restaurants from the database

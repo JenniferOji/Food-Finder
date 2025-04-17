@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { addIcons } from 'ionicons';
 import { homeOutline, heartOutline, mapOutline } from 'ionicons/icons';
 import { FoursquareService } from '../services/foursquare.service';
+import 'leaflet-gesture-handling';
 
 @Component({
   selector: 'app-map',
@@ -85,8 +86,14 @@ export class MapComponent implements OnInit {
     // inititalising the map and setting it on the users loaction
     this.map = L.map('map', {
       center: this.centroid,
-      zoom:20
-    });
+      zoom:20,
+      zoomControl: true,
+      dragging: true,
+      tap: false, // disables Ionics interference on mobile
+      touchZoom: true, // enables pinch to zoom
+      doubleClickZoom: true
+    }as L.MapOptions & { tap: boolean });
+    (this.map as any).options.tap = false; // overiding the ionic tap 
 
     const tiles = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 18,

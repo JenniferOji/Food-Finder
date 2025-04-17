@@ -1,0 +1,6 @@
+{
+    "/api": {
+      "target": " https://foodfinder-backend-alp7u37eq-jenny-os-projects.vercel.app",
+      "secure": false
+    }
+}

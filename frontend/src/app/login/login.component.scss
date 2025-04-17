@@ -19,3 +19,57 @@ ion-toolbar {
     width: auto;
     transform: translateY(-12px); // moving the logo up to fit in the toolbar
 }
+
+.log-in-button {
+    background-color: #6FC340;
+    padding: 15px;
+    border-radius: 15px;
+    font-size: x-large;
+    font-weight: 200;
+    width: 55%;
+    height:auto;
+    color: black;
+}
+
+.button-holder {
+    position: absolute;
+    top: 70%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+  
+
+.input-boxes {
+    --padding-start: 14px;
+    --padding-end: 14px;
+    --padding-top: 16px;
+    --padding-bottom: 16px;
+    --background: white;
+    width: 100%;
+    max-width: 350px;
+    margin-bottom: 20px;
+    font-size: x-large;
+    color: black;
+}
+
+.email-div, .password-div {
+    margin-left: 5%;
+    
+}
+
+.email-div {
+    margin-top: 20%;
+}
+  
+.email-div h2 {
+    color: black;
+}
+
+.password-div h2 {
+    color: black;
+}
+  
+

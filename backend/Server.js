@@ -1,18 +1,18 @@
 require('dotenv').config();  
 const express = require('express');
+const serverless = require('serverless-http'); 
 const app = express();
 const port = process.env.PORT;
 
 const cors = require('cors');
 
-app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
-  });
+app.use(cors({
+    origin: '*',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true 
+}));
   
-app.options("*", cors());
 app.use(express.json());
 
 
@@ -32,7 +32,9 @@ const userSchema = new mongoose.Schema({
     password: String,
     favourites: [{
         restaurantId: String,
-        restaurantName: String     
+        restaurantName: String,
+        restaurantImageURL: String,
+        restaurantLocation: String
     }]
 }); 
 
@@ -40,7 +42,6 @@ const UserModel = mongoose.model('User', userSchema);
 
 // creating the users account
 app.post('/register', async (req, res) => {
-    res.set('Access-Control-Allow-Origin', '*');
     // pulling the email and password out of the request body 
     const { email, password} = req.body;
     try {    
@@ -58,7 +59,6 @@ app.post('/register', async (req, res) => {
 
 // retrieving a specifc user by email and password
 app.post('/login', async (req, res) => {
-    res.set('Access-Control-Allow-Origin', '*');
     // pulling the email and the password out of the request body 
     const { email, password } = req.body;
     
@@ -79,9 +79,8 @@ app.post('/login', async (req, res) => {
 
 // posting the users favourtied restaurants 
 app.post('/favourites', async (req, res) => {
-    res.set('Access-Control-Allow-Origin', '*');
     // pulling the id and restaurant out of the request body
-    const { userId, restaurantId, restaurantName } = req.body;
+    const { userId, restaurantId, restaurantName, restaurantImageURL, restaurantLocation} = req.body;
     
     try {
         // finding their user by their id an dupdating their favourties list
@@ -90,7 +89,9 @@ app.post('/favourites', async (req, res) => {
                 $addToSet: { 
                     favourites: { 
                         restaurantId: restaurantId, 
-                        restaurantName: restaurantName 
+                        restaurantName: restaurantName,
+                        restaurantImageURL: restaurantImageURL,
+                        restaurantLocation: restaurantLocation
                     } 
                 } 
             }, 
@@ -106,7 +107,6 @@ app.post('/favourites', async (req, res) => {
 
 // getting the users favourtied restaurants 
 app.get('/favourites/:id', async (req, res) => {
-    res.set('Access-Control-Allow-Origin', '*');
     // getting the id from the request parameter
     const { id } = req.params; 
 
@@ -122,7 +122,6 @@ app.get('/favourites/:id', async (req, res) => {
 
 // getting the users favourtied restaurants 
 app.delete('/favourites/:id', async (req, res) => {
-    res.set('Access-Control-Allow-Origin', '*');
     // getting the id from the request parameter
     const { id } = req.params; 
     const { restaurantId } = req.body; 
@@ -148,3 +147,8 @@ app.delete('/favourites/:id', async (req, res) => {
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });
+
+module.exports = app;
+module.exports.handler = serverless(app);
+
+
